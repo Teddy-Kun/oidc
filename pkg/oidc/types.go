@@ -35,6 +35,17 @@ func (a *Audience) UnmarshalJSON(text []byte) error {
 	return nil
 }
 
+func (a *Audience) MarshalJSON() ([]byte, error) {
+	len := len(*a)
+	if len > 1 {
+		return json.Marshal(*a)
+	} else if len == 1 {
+		return json.Marshal((*a)[0])
+	}
+
+	return nil, errors.New("aud is empty")
+}
+
 type Display string
 
 func (d *Display) UnmarshalText(text []byte) error {
